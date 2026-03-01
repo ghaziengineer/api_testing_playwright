@@ -15,4 +15,18 @@ body.forEach(item => {
   expect(typeof item.bookingid).toBe('number');
 });
 });
-   
+
+const filters = [
+  { name: 'firstname', value: 'Ghazi' },
+  { name: 'lastname', value: 'Abdallah' }
+];
+
+for (const filter of filters) {
+test(`Get bookings filtered by ${filter.name}`, async ({ request }) => {
+  const response = await request.get(`${BASE_URL}/booking?${filter.name}=${filter.value}`);
+  expect(response.status()).toBe(200);
+
+  const body = await response.json();
+  expect(Array.isArray(body)).toBeTruthy();
+});
+}
