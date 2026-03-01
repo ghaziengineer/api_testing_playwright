@@ -16,12 +16,26 @@ body.forEach(item => {
 });
 });
 
-const filters = [
+const filters_names = [
   { name: 'firstname', value: 'Ghazi' },
   { name: 'lastname', value: 'Abdallah' }
 ];
 
-for (const filter of filters) {
+for (const filter of filters_names) {
+test(`Get bookings filtered by ${filter.name}`, async ({ request }) => {
+  const response = await request.get(`${BASE_URL}/booking?${filter.name}=${filter.value}`);
+  expect(response.status()).toBe(200);
+
+  const body = await response.json();
+  expect(Array.isArray(body)).toBeTruthy();
+});
+}
+const filters_check = [
+  { name: 'checkin', value: '2026-03-01' },
+  { name: 'checkout', value: '2024-03-02' }
+];
+
+for (const filter of filters_check) {
 test(`Get bookings filtered by ${filter.name}`, async ({ request }) => {
   const response = await request.get(`${BASE_URL}/booking?${filter.name}=${filter.value}`);
   expect(response.status()).toBe(200);
